@@ -145,11 +145,7 @@ describe JSON::JWK do
 
     describe 'unknown curve' do
       it do
-        key = if OpenSSL::OPENSSL_VERSION_NUMBER >= 0x30000000 # OpenSSL 3.0+
-          OpenSSL::PKey::EC.generate('secp112r2')
-        else
-          OpenSSL::PKey::EC.new('secp112r2').generate_key
-        end
+        key = OpenSSL::PKey::EC.new('secp112r2').generate_key
         expect do
           JSON::JWK.new key
         end.to raise_error JSON::JWK::UnknownAlgorithm, 'Unknown EC Curve'
